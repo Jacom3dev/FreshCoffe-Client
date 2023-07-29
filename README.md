@@ -1,8 +1,14 @@
 # FreshCoffe
 
+<img src="./imgs/login.png" alt="login">
+
+<img src="./imgs/register.png" alt="register">
+
+<img src="./imgs/dashboard.png" alt="register">
 ## Introducción
 
 proyecto React que utiliza TypeScript como lenguaje de programación, Tailwind CSS para estilos, Zustand para la gestión del estado y React Modal para la creación de modales en la aplicación. A continuación, se detalla el proceso de configuración y ejecución del proyecto.
+
 
 ## Requisitos previos
 
