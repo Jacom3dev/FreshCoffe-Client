@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { ModalProduct, Resumen, Sidebar } from "../components";
 import { useStore } from "zustand";
 import { store } from "../store";
+import { useAuth } from "../hooks/useAuth";
 
 const customStyles = {
   content: {
@@ -19,6 +20,8 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 export const Layout = () => {
+  useAuth({middleware: 'auth',url: '/auth/login'});
+
   const {showModal} = useStore(store);
   return (
    <>

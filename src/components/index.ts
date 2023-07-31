@@ -4,3 +4,4 @@ export * from "./layouts/Sidebar";
 export * from "./layouts/Resumen";
 export * from "./home/Product";
 export * from "./home/ModalProduct";
+export * from "./Alert";

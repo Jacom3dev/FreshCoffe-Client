@@ -1,36 +1,27 @@
-import { create } from 'zustand'
-import { categories } from '../data/categories';
-import { products } from '../data/products';
-import { ICategory, IOrder, IProduct } from '../interfaces';
+import { create } from 'zustand';
+import { ICategory, IOrder, IProduct, IStore } from '../interfaces';
 import { notify } from '../helpers/notify';
+import { API } from './api';
 
-
-interface IStore {
-  showModal: boolean;
-  category: string;
-  categories:ICategory[];
-  product: IProduct | null;
-  products: IProduct[];
-  order: IOrder[];
-  filterProducts: (category_id:number)=>void;
-  setProduct: (product:IProduct)=>void;
-  setShowModal: (state:boolean)=>void;
-  setOrder:(order:IOrder[],product:IOrder)=>void;
-  changeAmount:(order:IOrder[],productId:number,value:number)=>void;
-  deleteProduct:(order:IOrder[],productId:number)=>void;
-}
 
 export const store = create<IStore>((set) => ({
   showModal:false, 
-  category:'',
-  categories,
+  category:null,
+  categories:[],
   product:null,
-  products,
   order: [],
-  filterProducts: (category_id:number) =>{
-    set({category:categories[category_id-1].name});
-    const filter =  products.filter((product)=>product.category_id === category_id);
-    set({products:filter});
+  errors: null,
+  setCategory: (category:ICategory)=>{
+   set({category});
+  },
+  getCategories:async ()=>{
+    try {
+      const {data} = await API.get('/categories');    
+      set({categories:data.data});
+      set({category:data.data[0]});
+    } catch (e) {
+      //TODO: errors
+    }
   },
   setProduct: (product:IProduct)=>{
     set({product});
@@ -48,10 +39,10 @@ export const store = create<IStore>((set) => ({
   },
   changeAmount:(order:IOrder[],productId:number,value:number)=>{
     const chanteValues = order.map((product)=>{
-        if (product.id === productId) {
-          product.amount = product.amount+value
-        }
-        return product
+      if (product.id === productId) {
+        product.amount = product.amount+value
+      }
+      return product;
     })
     set({order:chanteValues});
   },

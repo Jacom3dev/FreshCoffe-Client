@@ -7,11 +7,14 @@ interface IProps {
 }
 
 export const Category = ({category}:IProps) => {
-  const {filterProducts,category:categoryStore} = useStore(store);
+  const {setCategory,category:categoryStore} = useStore(store);
   const {name,icon,id} = category;
   
   return (
-    <div className={`flex items-center gap-4 border w-full p-3 hover:bg-amber-400 ${categoryStore === name&&'bg-amber-400'} `} onClick={()=>filterProducts(id)}>
+    <div
+      className={`flex items-center gap-4 border w-full p-3 hover:bg-amber-400 ${categoryStore?.id === id&&'bg-amber-400'} `}
+      onClick={()=>setCategory(category)}
+    >
       <img src={`/img/icono_${icon}.svg`} alt={name} className="w-12" />
       <p className="text-lg font-bold cursor-pointer truncate">{name}</p>
     </div>
