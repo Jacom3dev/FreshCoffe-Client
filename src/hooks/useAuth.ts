@@ -8,7 +8,7 @@ export const useAuth = ({middleware,url}:{middleware:string,url:string})=>{
     const AUTH_TOKEN = `Bearer ${localStorage.getItem('AUTH_TOKEN')??''}`;
     const navigate = useNavigate();
 
-    const {data:user,error,mutate} = useSWR('/user',() =>
+    const {data:user,error} = useSWR('/user',() =>
         API.get('/user',{
             headers: {
                 Authorization: AUTH_TOKEN
@@ -23,7 +23,7 @@ export const useAuth = ({middleware,url}:{middleware:string,url:string})=>{
             const {data} = await API.post('/login',user);
             localStorage.setItem("AUTH_TOKEN",data.token);  
             setErrors([]);
-            await mutate();
+            window.location.pathname = "/"; 
         } catch (e:any) {        
             setErrors(Object.values(e?.response?.data?.errors));
         }
@@ -33,18 +33,20 @@ export const useAuth = ({middleware,url}:{middleware:string,url:string})=>{
             const {data} = await API.post<{token:string}>('/register',user);
             localStorage.setItem("AUTH_TOKEN",data.token);  
             setErrors([]);
-            await mutate();  
+            window.location.pathname = "/";  
           } catch (e:any) {     
             setErrors(Object.values(e?.response?.data?.errors))
         }
     }
     const logout = async () =>{
         try {
-            await API.post<{token:string}>('/logout',{});
+            await API.post<{token:string}>('/logout',{},{headers:{
+                Authorization:AUTH_TOKEN
+            }});
             localStorage.removeItem('AUTH_TOKEN');
-            await mutate();  
+            window.location.pathname = "/auth/login";  
         } catch (e:any) {     
-           
+           console.error(e)
         }
     }
 

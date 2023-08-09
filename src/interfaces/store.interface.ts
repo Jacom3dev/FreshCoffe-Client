@@ -6,6 +6,7 @@ export interface IStore {
   categories:ICategory[];
   product: IProduct | null;
   order: IOrder[];
+  createOrder: (oder:IOrder[],fn:() => Promise<void>)=>void;
   setCategory: (category:ICategory)=>void;
   getCategories: ()=>void;
   setProduct: (product:IProduct)=>void;

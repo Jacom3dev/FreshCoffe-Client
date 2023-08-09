@@ -14,6 +14,30 @@ export const store = create<IStore>((set) => ({
   setCategory: (category:ICategory)=>{
    set({category});
   },
+  createOrder:async (order:IOrder[],logout)=>{
+    try {
+      const formatData = order.map(product=>{
+        return {
+          id:product.id,
+          amount: product.amount
+        }
+      });
+      const total = order.reduce((total,order)=>total+(order.price*order.amount),0);
+      await API.post('/order',{
+        total,
+        products: formatData
+      },{headers:{Authorization:`Bearer ${localStorage.getItem('AUTH_TOKEN')??''}`}});    
+      
+      notify("Orden creada correctamente");
+
+      setTimeout(() => {  
+        logout();
+      }, 3000);
+
+    } catch (e) {
+      console.error(e);
+    }
+  },
   getCategories:async ()=>{
     try {
       const {data} = await API.get('/categories');    

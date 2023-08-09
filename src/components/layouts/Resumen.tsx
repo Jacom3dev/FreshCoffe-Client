@@ -2,10 +2,17 @@ import { useStore } from 'zustand';
 import { store } from '../../store';
 import { ResumenProduct } from './ResumenProduct';
 import { formatMoney } from '../../helpers/formatMoney';
+import { useAuth } from '../../hooks/useAuth';
 
 export const Resumen = () => {
-  const { order } = useStore(store);
+  const { order,createOrder } = useStore(store);
 
+  const {logout} = useAuth({middleware:"",url:"/"});
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
+    e.preventDefault();
+
+    createOrder(order,logout);
+  }
   return (
     <div className="md:w-72 overflow-y-scroll h-screen p-5">
       <h1 className="text-4xl font-black">Mi Pedido</h1>
@@ -23,7 +30,7 @@ export const Resumen = () => {
 
       <p className="text-xl mt-10">total: {formatMoney(order?.reduce((total,order)=>total+(order.price*order.amount),0))} </p>
 
-      <form className="w-full">
+      <form className="w-full" onSubmit={onSubmit}>
         <div className="mt-5">
           <button
             type="submit"
