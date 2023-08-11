@@ -7,9 +7,14 @@ import { IProduct } from "../interfaces";
 
 
 const Home = () => {
+  const AUTH_TOKEN = `Bearer ${localStorage.getItem('AUTH_TOKEN')??''}`;
   const {category} = useStore(store);
 
-  const fetcher = () => API.get("/products").then(({data})=>data.data)
+  const fetcher = () => API.get("/products",{
+    headers:{
+        Authorization: AUTH_TOKEN
+    }
+  }).then(({data})=>data.data)
   const {data,isLoading} = useSWR("/products",fetcher);
 
   if (isLoading) {
@@ -25,11 +30,11 @@ const Home = () => {
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         {products.map((product:IProduct)=>(
-          <Product key={product.id} product={product}/>
+          <Product key={product.id} product={product} button="add"/>
         ))}
       </div>
     </>
   );
 }
 
-export default Home
+export default Home;

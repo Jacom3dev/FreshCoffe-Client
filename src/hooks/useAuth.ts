@@ -22,8 +22,7 @@ export const useAuth = ({middleware,url}:{middleware:string,url:string})=>{
         try {
             const {data} = await API.post('/login',user);
             localStorage.setItem("AUTH_TOKEN",data.token);  
-            setErrors([]);
-            window.location.pathname = "/"; 
+            setErrors([]);         
         } catch (e:any) {        
             setErrors(Object.values(e?.response?.data?.errors));
         }
@@ -33,7 +32,6 @@ export const useAuth = ({middleware,url}:{middleware:string,url:string})=>{
             const {data} = await API.post<{token:string}>('/register',user);
             localStorage.setItem("AUTH_TOKEN",data.token);  
             setErrors([]);
-            window.location.pathname = "/";  
           } catch (e:any) {     
             setErrors(Object.values(e?.response?.data?.errors))
         }
@@ -51,12 +49,12 @@ export const useAuth = ({middleware,url}:{middleware:string,url:string})=>{
     }
 
     useEffect(() => {
-     if (middleware === "guest" && url && user) {
-        navigate(url)
+     if (middleware === "guest" && url && user && !user.admin) {
+        navigate(url)     
      }
      
      if (middleware === "auth" && error) {
-        navigate(url)
+        navigate(url)   
      }
     }, [user,error])
     

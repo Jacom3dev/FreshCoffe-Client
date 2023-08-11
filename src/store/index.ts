@@ -38,14 +38,29 @@ export const store = create<IStore>((set) => ({
       console.error(e);
     }
   },
+  completeOrder: async(id:string)=>{
+    try {
+      await API.put(`/order/${id}`,{},{headers:{Authorization:`Bearer ${localStorage.getItem('AUTH_TOKEN')??''}`}});  
+    } catch (e) {
+      console.error(e);
+    }  
+  },
   getCategories:async ()=>{
     try {
       const {data} = await API.get('/categories');    
       set({categories:data.data});
       set({category:data.data[0]});
     } catch (e) {
-      //TODO: errors
+      console.error(e);
     }
+  },
+  changeStateProduct: async(id:number)=>{
+    try {
+      await API.put(`/product/${id}`,{},{headers:{Authorization:`Bearer ${localStorage.getItem('AUTH_TOKEN')??''}`}});  
+    } catch (e) {
+      console.error(e);
+    }  
+  
   },
   setProduct: (product:IProduct)=>{
     set({product});

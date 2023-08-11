@@ -31,7 +31,7 @@ export const Sidebar = () => {
                 <button
                     type="button" className="text-center bg-red-500 w-100 p-3 font-bold text-white truncate"
                     onClick={logout}
-                >Cancelar order</button>
+                >Cancelar Orden</button>
             </div>
         </aside>
     );

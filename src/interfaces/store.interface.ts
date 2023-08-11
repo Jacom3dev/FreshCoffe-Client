@@ -8,7 +8,9 @@ export interface IStore {
   order: IOrder[];
   createOrder: (oder:IOrder[],fn:() => Promise<void>)=>void;
   setCategory: (category:ICategory)=>void;
+  completeOrder:(id:string)=>void;
   getCategories: ()=>void;
+  changeStateProduct: (id:number)=>void
   setProduct: (product:IProduct)=>void;
   setShowModal: (state:boolean)=>void;
   setOrder:(order:IOrder[],product:IOrder)=>void;
