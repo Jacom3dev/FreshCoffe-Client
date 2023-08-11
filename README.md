@@ -6,6 +6,9 @@
 
 <img src="./imgs/dashboard.png" alt="dashboard">
 
+<img src="./imgs/orders.png" alt="orders">
+<img src="./imgs/products.png" alt="products">
+
 ## Introducción
 
 proyecto React que utiliza TypeScript como lenguaje de programación, Tailwind CSS para estilos, Zustand para la gestión del estado y React Modal para la creación de modales en la aplicación. A continuación, se detalla el proceso de configuración y ejecución del proyecto.
